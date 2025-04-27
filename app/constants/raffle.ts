@@ -1,7 +1,5 @@
-import { InterfaceAbi } from "ethers";
-
 export const contractAddress = "0xe222B04F55F8B400Cd37F9a40ad9936014BB3600";
-export const raffleAbi: InterfaceAbi = [
+export const raffleAbi = [
   {
     inputs: [
       {

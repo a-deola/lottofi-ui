@@ -1,61 +1,51 @@
 import { useState } from "react";
-import { ethers, Interface } from "ethers";
-import Button from "@mui/material/Button";
-import { isHexString } from "ethers";
-import { contractAddress, raffleAbi } from "../constants/raffle";
+import { useSendTransaction } from "wagmi";
+import { parseEther } from "viem";
+import { Button } from "@mui/material";
+import { contractAddress } from "../constants/raffle";
 
-type EnterRaffleProps = {
-  onError: (msg: string) => void;
-};
+export default function EnterRaffle() {
+  const [error, setError] = useState<boolean>(false);
+  const [success, setSuccess] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-function EnterRaffle({ onError }: EnterRaffleProps) {
-  const [error, setError] = useState<string | null>(null);
+  const { sendTransaction, failureReason, isError, isSuccess, isPending } =
+    useSendTransaction();
 
-  async function enterRaffle() {
-    if (typeof window.ethereum !== "undefined") {
-      const provider = new ethers.BrowserProvider(window.ethereum);
-      const signer = await provider.getSigner();
-      const contract = new ethers.Contract(contractAddress, raffleAbi, signer);
-      const iface = new Interface(raffleAbi);
-
-      try {
-        await contract.enterRaffle();
-      } catch (err: any) {
-        console.log("Error entering raffle:", err);
-        // const errorData = err?.error?.data || err?.data;
-        // if (errorData && isHexString(errorData)) {
-        //   try {
-        //     const decoded = iface.parseError(errorData);
-        //     if (!decoded) throw new Error("Could not decode error");
-        //     const caller = decoded.args[0];
-        //     setError(`Unauthorized: ${caller}`);
-        //     onError(`Unauthorized: ${caller}`);
-        //   } catch (decodeErr) {
-        //     console.error("Failed to decode custom error", decodeErr);
-        //     setError("Transaction failed (unknown reason).");
-        //     onError("Transaction failed (unknown reason).");
-        //   }
-        // } else {
-        //   console.error("Unhandled error:", err);
-        //   setError(err?.message || "Transaction failed.");
-        //   onError(err?.message || "Transaction failed.");
-        // }
-      }
-    }
-  }
+  // if (isError) {
+  //   setError(true);
+  //   setErrorMessage(failureReason?.message || "An unknown error occurred.");
+  // }
+  // if (isSuccess) {
+  //   setSuccess(true);
+  //   setIsLoading(false);
+  // }
+  // if (isPending) {
+  //   setIsLoading(true);
+  // }
 
   return (
     <>
+      {isError && errorMessage && (
+        <div style={{ color: "red" }}>Error: {errorMessage}</div>
+      )}
+      {isSuccess && (
+        <div style={{ color: "green" }}>Successfully entered the raffle!</div>
+      )}
+
       <Button
         variant="contained"
         color="primary"
-        onClick={enterRaffle}
-        className="mt-4"
+        onClick={() =>
+          sendTransaction({
+            to: contractAddress,
+            value: parseEther("0.01"),
+          })
+        }
       >
         Enter Raffle
       </Button>
     </>
   );
 }
-
-export default EnterRaffle;
