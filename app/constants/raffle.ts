@@ -1,4 +1,4 @@
-export const contractAddress = "0xe222B04F55F8B400Cd37F9a40ad9936014BB3600";
+export const contractAddress = "0x4eb40f258B9484aa1E19431831c88B565f4a3814";
 export const raffleAbi = [
   {
     inputs: [
