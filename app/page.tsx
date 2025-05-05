@@ -13,7 +13,7 @@ export default function Home() {
         <ConnectButton />
       </div>
       <Container
-        className="bg-white w-3xl p-4 rounded mt-5 flex flex-col justify-center items-center"
+        className="bg-white w-3xl p-4 rounded mt-5 flex flex-col justify-center items-center relative"
         maxWidth="lg"
       >
         <p className="text-xl md:text-4xl font-bold text-[#1A1A1A] text-center mt-5">

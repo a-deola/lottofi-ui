@@ -8,7 +8,7 @@ import { ReactNode } from "react";
 
 const config = getDefaultConfig({
   appName: "Lotto-Fi",
-  projectId: "1",
+  projectId: "7ab96905dfc0024f9569d0f97a549645",
   chains: [baseSepolia],
 });
 

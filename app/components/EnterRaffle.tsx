@@ -65,6 +65,19 @@ export default function EnterRaffle() {
 
   return (
     <>
+      {isConfirmed && txData && (
+        <div className="text-green-600 flex flex-col justify-center items-center absolute top-0 right-5 bg-white  p-4 rounded shadow-md">
+          <p>Raffle Entered! </p>
+          <a
+            href={`https://etherscan.io/tx/${txData}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline text-blue-600"
+          >
+            View on Etherscan
+          </a>
+        </div>
+      )}
       {isLoading && (
         <Modal
           open={isLoading}
@@ -100,11 +113,6 @@ export default function EnterRaffle() {
             errorMessage.split("Details:")[1]?.trim() ||
             errorMessage.split("Request Arguments:")[0]?.trim() ||
             "Something went wrong."}
-        </div>
-      )}
-      {success && (
-        <div className="text-green-500 font-bold text-center">
-          Successfully entered the raffle!
         </div>
       )}
 
