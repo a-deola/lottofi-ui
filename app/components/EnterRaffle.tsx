@@ -60,7 +60,7 @@ export default function EnterRaffle() {
           message="Raffle Entered!"
           link={{
             href: `https://etherscan.io/tx/${txData}`,
-            label: "View on Etherscan",
+            label: "View on Base Sepolia Block Explorer",
           }}
           onClose={() => setShowNotif(false)}
           type="success"
