@@ -4,13 +4,13 @@ import { useSendTransaction, useWaitForTransactionReceipt } from "wagmi";
 import { parseEther } from "viem";
 import { Button, Modal, CircularProgress, Box } from "@mui/material";
 import { contractAddress } from "../constants/raffle";
+import Notification from "./Notification";
 
 export default function EnterRaffle() {
   const [error, setError] = useState<boolean>(false);
-  const [success, setSuccess] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
+  const [showNotif, setShowNotif] = useState<boolean>(false);
   const {
     data: txData,
     sendTransaction,
@@ -36,7 +36,7 @@ export default function EnterRaffle() {
 
   useEffect(() => {
     if (isConfirmed) {
-      setSuccess(true);
+      setShowNotif(true);
       setIsLoading(false);
     }
   }, [isConfirmed]);
@@ -53,30 +53,18 @@ export default function EnterRaffle() {
     }
   }, [isError, isConfirmError, failureReason, confirmError]);
 
-  useEffect(() => {
-    if (success) {
-      const timer = setTimeout(() => {
-        setSuccess(false);
-      }, 5000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [success]);
-
   return (
     <>
-      {isConfirmed && txData && (
-        <div className="text-green-600 flex flex-col justify-center items-center absolute top-0 right-5 bg-white  p-4 rounded shadow-md">
-          <p>Raffle Entered! </p>
-          <a
-            href={`https://etherscan.io/tx/${txData}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline text-blue-600"
-          >
-            View on Etherscan
-          </a>
-        </div>
+      {showNotif && txData && (
+        <Notification
+          message="Raffle Entered!"
+          link={{
+            href: `https://etherscan.io/tx/${txData}`,
+            label: "View on Etherscan",
+          }}
+          onClose={() => setShowNotif(false)}
+          type="success"
+        />
       )}
       {isLoading && (
         <Modal
