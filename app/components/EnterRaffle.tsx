@@ -59,7 +59,7 @@ export default function EnterRaffle() {
         <Notification
           message="Raffle Entered!"
           link={{
-            href: `https://etherscan.io/tx/${txData}`,
+            href: `https://base-sepolia.blockscout.com/tx/${txData}`,
             label: "View on Base Sepolia Block Explorer",
           }}
           onClose={() => setShowNotif(false)}
